@@ -54,3 +54,15 @@ class Cell:
             line = Line(p1, p2)
             # draw line
             self.__win.draw_line(line, "black")
+
+    def draw_move(self, to_cell, undo=False):
+        self_x = (self.__x1 + self.__x2) / 2
+        self_y = (self.__y1 + self.__y2) / 2
+        to_cell_x = (to_cell.__x1 + to_cell.__x2) / 2
+        to_cell_y = (to_cell.__y1 + to_cell.__y2) / 2
+
+        line = Line(Point(self_x, self_y), Point(to_cell_x, to_cell_y))
+        # fill = undo == false ? "red" : "gray"
+        fill = "red" if undo is False else "gray"
+
+        self.__win.draw_line(line, fill)
