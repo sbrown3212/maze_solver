@@ -43,5 +43,5 @@ class Maze:
 
     def animate(self):
         self.__win.redraw()
-        time.sleep(0.05)
+        time.sleep(0.02)
 
