@@ -19,8 +19,6 @@ class Cell:
         self.__x2 = x2
         self.__y2 = y2
 
-        if not self.__win:
-            return
 
         if self.has_left_wall:
             # create points
@@ -29,7 +27,8 @@ class Cell:
             # create line
             line = Line(p1, p2)
             # draw line
-            self.__win.draw_line(line, "black")
+            if self.__win:
+                self.__win.draw_line(line, "black")
 
         if self.has_top_wall:
             # create points
@@ -38,7 +37,8 @@ class Cell:
             # create line
             line = Line(p1, p2)
             # draw line
-            self.__win.draw_line(line, "black")
+            if self.__win:
+                self.__win.draw_line(line, "black")
 
         if self.has_right_wall:
             # create points
@@ -47,7 +47,8 @@ class Cell:
             # create line
             line = Line(p1, p2)
             # draw line
-            self.__win.draw_line(line, "black")
+            if self.__win:
+                self.__win.draw_line(line, "black")
 
         if self.has_bottom_wall:
             # create points
@@ -56,7 +57,8 @@ class Cell:
             # create line
             line = Line(p1, p2)
             # draw line
-            self.__win.draw_line(line, "black")
+            if self.__win:
+                self.__win.draw_line(line, "black")
 
     def draw_move(self, to_cell, undo=False):
         self_x = (self.__x1 + self.__x2) / 2
@@ -68,7 +70,5 @@ class Cell:
         # fill = undo == false ? "red" : "gray"
         fill = "red" if undo is False else "gray"
 
-        if not self.__win:
-            return
-
-        self.__win.draw_line(line, fill)
+        if self.__win:
+            self.__win.draw_line(line, fill)
