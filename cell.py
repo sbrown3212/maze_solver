@@ -19,46 +19,21 @@ class Cell:
         self.__x2 = x2
         self.__y2 = y2
 
+        if self.__win:
+            p_top_left = Point(x1, y1)
+            p_top_right = Point(x2, y1)
+            p_bottom_left = Point(x1, y2)
+            p_bottom_right = Point(x2, y2)
 
-        if self.has_left_wall:
-            # create points
-            p1 = Point(self.__x1, self.__y1)
-            p2 = Point(self.__x1, self.__y2) 
-            # create line
-            line = Line(p1, p2)
-            # draw line
-            if self.__win:
-                self.__win.draw_line(line, "black")
+            l_top = Line(p_top_left, p_top_right)
+            l_right = Line(p_top_right, p_bottom_right)
+            l_bottom = Line(p_bottom_left, p_bottom_right)
+            l_left = Line(p_top_left,p_bottom_left)
 
-        if self.has_top_wall:
-            # create points
-            p1 = Point(self.__x1, self.__y1)
-            p2 = Point(self.__x2, self.__y1) 
-            # create line
-            line = Line(p1, p2)
-            # draw line
-            if self.__win:
-                self.__win.draw_line(line, "black")
-
-        if self.has_right_wall:
-            # create points
-            p1 = Point(self.__x2, self.__y1)
-            p2 = Point(self.__x2, self.__y2) 
-            # create line
-            line = Line(p1, p2)
-            # draw line
-            if self.__win:
-                self.__win.draw_line(line, "black")
-
-        if self.has_bottom_wall:
-            # create points
-            p1 = Point(self.__x1, self.__y2)
-            p2 = Point(self.__x2, self.__y2) 
-            # create line
-            line = Line(p1, p2)
-            # draw line
-            if self.__win:
-                self.__win.draw_line(line, "black")
+            self.__win.draw_line(l_left, "black" if self.has_left_wall else "white")
+            self.__win.draw_line(l_top, "black" if self.has_top_wall else "white")
+            self.__win.draw_line(l_right, "black" if self.has_right_wall else "white")
+            self.__win.draw_line(l_bottom, "black" if self.has_bottom_wall else "white")
 
     def draw_move(self, to_cell, undo=False):
         self_x = (self.__x1 + self.__x2) / 2
