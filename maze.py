@@ -53,7 +53,7 @@ class Maze:
         if not self.__win:
             return
         self.__win.redraw()
-        time.sleep(0.05)
+        time.sleep(0.01)
 
     def __break_entrance_and_exit(self):
         x1 = 0
@@ -96,7 +96,7 @@ class Maze:
 
         # if cell above current exists and has not been visited
         if j-1 >= 0 and self.__cells[i][j-1].visited == False:
-            possible_directions.append([i-1, j])
+            possible_directions.append([i, j-1])
 
         # Draw current cell and return if all neighboring cells have been visited
         if len(possible_directions) == 0:
