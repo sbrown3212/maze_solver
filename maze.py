@@ -54,7 +54,7 @@ class Maze:
         if not self.__win:
             return
         self.__win.redraw()
-        time.sleep(0.01)
+        time.sleep(0.001)
 
     def __break_entrance_and_exit(self):
         x1 = 0
@@ -145,3 +145,65 @@ class Maze:
         for i in range(self.__num_cols):
             for j in range(self.__num_rows):
                 self.__cells[i][j].visited = False
+
+    def solve(self):
+        self.__solve_r(0, 0)
+
+    def __solve_r(self, i, j):
+        self.animate()
+
+        # Set current cell 'visited' to 'True'
+        current_cell = self.__cells[i][j]
+        current_cell.visited = True
+
+        # Return 'True' if end cell is found
+        if i == self.__num_cols - 1 and j == self.__num_rows-1:
+            return True
+
+        # Save value for neighboring cells
+        n_left = self.__cells[i-1][j] if i-1 >= 0 else None
+        n_right = self.__cells[i+1][j] if i+1 <= self.__num_cols - 1 else None
+        n_above = self.__cells[i][j-1] if j-1 >= 0 else None
+        n_below = self.__cells[i][j+1] if j+1 <= self.__num_rows - 1 else None
+        
+        # for each direction:
+        # left
+        # Check if neighboring cell exists
+        if n_left:
+            # if no walls are blocking, and if neighboring cell has not been visited
+            if current_cell.has_left_wall == False and n_left.has_right_wall == False and n_left.visited == False:
+                # Draw red line to neighboring cell
+                current_cell.draw_move(n_left)
+                # Get result from recursive call on neighboring cell
+                result = self.__solve_r(i-1, j)
+                # Return true neighboring cell returns true (end was found)
+                if result:
+                    return True
+                # Undo line (redraw as gray) if reslut returns false
+                current_cell.draw_move(n_left, undo=True)
+        # right
+        if n_right:
+            if current_cell.has_right_wall == False and n_right.has_left_wall == False and n_right.visited == False:
+                current_cell.draw_move(n_right)
+                result = self.__solve_r(i+1, j)
+                if result:
+                    return True
+                current_cell.draw_move(n_right, undo=True)
+        # above
+        if n_above:
+            if current_cell.has_top_wall == False and n_above.has_bottom_wall == False and n_above.visited == False:
+                current_cell.draw_move(n_above)
+                result = self.__solve_r(i, j-1)
+                if result:
+                    return True
+                current_cell.draw_move(n_above, undo=True)
+        # below
+        if n_below:
+            if current_cell.has_bottom_wall == False and n_below.has_top_wall == False and n_below.visited == False:
+                current_cell.draw_move(n_below)
+                result = self.__solve_r(i, j+1)
+                if result:
+                    return True
+                current_cell.draw_move(n_below, undo=True)
+
+        return False
